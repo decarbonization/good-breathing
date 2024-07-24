@@ -1,0 +1,47 @@
+{
+  "name": "good-breathing",
+  "type": "commonjs",
+  "version": "0.0.1",
+  "description": "Air quality and pollen data from the Google maps platform",
+  "main": "dist/lib/index.js",
+  "types": "dist/lib/index.d.ts",
+  "files": [
+    "dist/lib"
+  ],
+  "scripts": {
+    "prepare": "npm run clean && npm run build",
+    "clean": "npx rimraf dist",
+    "build": "npx tsc",
+    "test": "npx jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/decarbonization/good-breathing.git"
+  },
+  "keywords": [
+    "google maps platform",
+    "air quality",
+    "pollen"
+  ],
+  "author": "P. Kevin Contreras",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/decarbonization/good-breathing/issues"
+  },
+  "homepage": "https://github.com/decarbonization/good-breathing#readme",
+  "devDependencies": {
+    "@jest/globals": "^29.7.0",
+    "jest": "^29.7.0",
+    "rimraf": "^6.0.1",
+    "ts-jest": "^29.2.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.3"
+  },
+  "engines": {
+    "node": ">=20.0",
+    "npm": ">=10.5.0"
+  },
+  "dependencies": {
+    "serene-front": "^0.0.5"
+  }
+}
