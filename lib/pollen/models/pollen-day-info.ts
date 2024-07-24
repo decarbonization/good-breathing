@@ -17,4 +17,25 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-export * from "./api-key";
+import { PlantInfo } from "./plant-info";
+import { PollenTypeInfo } from "./pollen-type-info";
+
+/**
+ * This object contains the daily forecast information for each day requested.
+ */
+export interface PollenDayInfo {
+    /**
+     * The date in UTC at which the pollen forecast data is represented.
+     */
+    readonly date: Date;
+
+    /**
+     * This list will include (up to) three pollen types (grass, weed, tree) affecting the location specified in the request.
+     */
+    readonly pollenTypeInfo: PollenTypeInfo[];
+
+    /**
+     * This list will include (up to) 15 pollen species affecting the location specified in the request.
+     */
+    readonly plantInfo: PlantInfo[];
+}

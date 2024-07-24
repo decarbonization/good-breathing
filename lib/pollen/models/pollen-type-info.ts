@@ -17,4 +17,34 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-export * from "./api-key";
+import { IndexInfo, PollenType } from "./base";
+
+/**
+ * This object contains the pollen type index and health recommendation information on specific pollen type.
+ */
+export interface PollenTypeInfo {
+    /**
+     * The pollen type's code name. For example: "GRASS"
+     */
+    readonly code: PollenType;
+
+    /**
+     * A human readable representation of the pollen type name. Example: "Grass"
+     */
+    readonly displayName: string;
+
+    /**
+     * Contains the Universal Pollen Index (UPI) data for the pollen type.
+     */
+    readonly indexInfo: IndexInfo;
+
+    /**
+     * Textual list of explanations, related to health insights based on the current pollen levels.
+     */
+    readonly healthRecommendations: string[],
+
+    /**
+     * Indication whether the plant is in season or not.
+     */
+    readonly inSeason: boolean;
+}

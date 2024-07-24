@@ -17,4 +17,4 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-export * from "./api-key";
+export * from "./models";
