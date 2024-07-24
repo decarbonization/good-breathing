@@ -45,7 +45,23 @@ const getForecast = new PollenForecastRequest({
     languageCode: "en-US",
     plantsDescription: opts.expandPlants ?? false,
 });
-const verboseLogger = (event: SereneLogEvent) => console.info(JSON.stringify(event));
+
+function verboseLogger(event: SereneLogEvent): void {
+    switch (event.event) {
+        case "willAuthenticate":
+            console.error(`+ willAuthenticate <${event.fetchRequest.url}> using ${event.authority}`);
+            break;
+        case "willRefreshAuthority":
+            console.error(`+ willRefreshAuthority ${event.authority}`);
+            break;
+        case "willFetch":
+            console.error(`+ willFetch <${event.fetchRequest.url}>`);
+            break;
+        case "willParse":
+            console.error(`+ willParse ${event.fetchResponse.status} ${event.fetchResponse.statusText}`);
+            break;
+    }
+}
 fulfill({ request: getForecast, authority: apiKey, logger: verboseLogger })
     .then(forecast => {
         console.info(JSON.stringify(forecast, undefined, 2));

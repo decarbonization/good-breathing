@@ -36,7 +36,7 @@ export interface PlantInfo {
     /**
      * This object contains data representing specific pollen index value, category and description.
      */
-    readonly indexInfo: IndexInfo;
+    readonly indexInfo?: IndexInfo;
 
     /**
      * Contains general information about plants, including details on their seasonality, 
@@ -47,7 +47,7 @@ export interface PlantInfo {
     /**
      * Indication of either the plant is in season or not.
      */
-    readonly inSeason: boolean;
+    readonly inSeason?: boolean;
 }
 
 /**

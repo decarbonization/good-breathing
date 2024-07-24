@@ -36,15 +36,15 @@ export interface PollenTypeInfo {
     /**
      * Contains the Universal Pollen Index (UPI) data for the pollen type.
      */
-    readonly indexInfo: IndexInfo;
+    readonly indexInfo?: IndexInfo;
 
     /**
      * Textual list of explanations, related to health insights based on the current pollen levels.
      */
-    readonly healthRecommendations: string[],
+    readonly healthRecommendations?: string[];
 
     /**
      * Indication whether the plant is in season or not.
      */
-    readonly inSeason: boolean;
+    readonly inSeason?: boolean;
 }

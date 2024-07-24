@@ -43,4 +43,8 @@ export class GoogleMapsApiKey implements SereneAuthority {
             ["key", this.apiKey],
         ]);
     }
+
+    toString(): string {
+        return `GoogleMapsApiKey(${this.apiKey})`;
+    }
 }
