@@ -17,4 +17,5 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+export * from "./pollen-forecast-request";
 export * from "./models";

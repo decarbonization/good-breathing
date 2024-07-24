@@ -42,7 +42,7 @@ export interface PlantInfo {
      * Contains general information about plants, including details on their seasonality, 
      * special shapes and colors, information about allergic cross-reactions, and plant photos.
      */
-    readonly plantDescription: PlantDescription;
+    readonly plantDescription?: PlantDescription;
 
     /**
      * Indication of either the plant is in season or not.
