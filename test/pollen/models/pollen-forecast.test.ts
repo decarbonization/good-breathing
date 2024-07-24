@@ -93,7 +93,7 @@ describe("pollen#models/pollen-forecast module", () => {
         it("should parse url objects", () => {
             const subject = parsePollenForecast(rawSubject);
             const info = subject.dailyInfo[0];
-            const plantDescription = info.plantInfo[0].plantDescription;
+            const plantDescription = info.plantInfo[0].plantDescription!;
             expect(plantDescription.picture instanceof URL).toStrictEqual(true);
             expect(plantDescription.picture).toStrictEqual(new URL("https://storage.googleapis.com/pollen-pictures/birch_full.jpg"));
             expect(plantDescription.pictureCloseup instanceof URL).toStrictEqual(true);
