@@ -17,6 +17,6 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-export * from "./current-conditions-request";
+export * from "./requests";
 export * from "./models";
 

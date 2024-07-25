@@ -18,6 +18,7 @@
  */
 
 export * from "./air-quality-index";
+export * from "./base";
 export * from "./current-conditions";
 export * from "./health-recommendations";
 export * from "./pollutant";
