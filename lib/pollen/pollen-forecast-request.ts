@@ -30,7 +30,7 @@ const pollenApiUrl = "https://pollen.googleapis.com";
 /**
  * Object specifying how to request daily pollen information.
  */
-export interface PollenForecastRequestOptions {
+export interface PollenForecastOptions {
     /**
      * The longitude and latitude from which the API searches for pollen forecast data.
      */
@@ -67,9 +67,9 @@ export interface PollenForecastRequestOptions {
 /**
  * Request daily pollen information using the forecast endpoint.
  */
-export class PollenForecastRequest implements SereneRequest<GoogleMapsApiKey, PollenForecast> {
+export class GetPollenForecast implements SereneRequest<GoogleMapsApiKey, PollenForecast> {
     constructor(
-        private readonly options: PollenForecastRequestOptions
+        private readonly options: PollenForecastOptions
     ) { }
 
     prepare({ }: SereneRequestPrepareOptions<GoogleMapsApiKey>): Request {

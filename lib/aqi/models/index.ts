@@ -17,5 +17,8 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-export * from "./color";
-export * from "./api-key";
+export * from "./air-quality-index";
+export * from "./current-conditions";
+export * from "./health-recommendations";
+export * from "./pollutant";
+

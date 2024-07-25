@@ -17,6 +17,8 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+import { Color } from "../../color";
+
 /**
  * Pollen Type Code.
  */
@@ -79,7 +81,7 @@ export interface IndexInfo {
     /**
      * The color used to represent the Pollen Index numeric score.
      */
-    readonly color: Color[];
+    readonly color: Color;
 
     /**
      * The index's numeric score. Numeric range is between 0 and 5.
@@ -100,29 +102,4 @@ export const enum Index {
      * Universal Pollen Index.
      */
     upi = "UPI",
-}
-
-/**
- * Represents a color in the RGBA color space.
- */
-export interface Color {
-    /**
-     * The amount of red in the color as a value in the interval [0, 1].
-     */
-    readonly red: number;
-
-    /**
-     * The amount of green in the color as a value in the interval [0, 1].
-     */
-    readonly green: number;
-
-    /**
-     * The amount of blue in the color as a value in the interval [0, 1].
-     */
-    readonly blue: number;
-
-    /**
-     * The fraction of this color that should be applied to the pixel.
-     */
-    readonly alpha: number;
 }

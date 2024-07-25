@@ -19,31 +19,50 @@
 
 import { program } from "commander";
 import { GoogleMapsApiKey } from "../lib";
-import { GetPollenForecast } from "../lib/pollen";
 import { fulfill, SereneLogEvent } from "serene-front";
+import { GetCurrentAirConditions, ExtraComputation } from "../lib/aqi";
 
 program
     .name("pollen-forecast")
-    .description("CLI to verify pollen forecast APIs")
+    .description("CLI to verify current air conditions APIs")
     .requiredOption("--key <VALUE>", "The Google Maps platform API key to use")
-    .requiredOption("--latitude <VALUE>", "The latitude of the forecast location", parseFloat)
-    .requiredOption("--longitude <VALUE>", "The longitude of the forecast location", parseFloat)
-    .option("--days [VALUE]", "How many days to include in the forecast", parseInt, 5)
-    .option("--expandPlants", "Include plants description in the forecast");
+    .requiredOption("--latitude <VALUE>", "The latitude of the location to get current conditions for", parseFloat)
+    .requiredOption("--longitude <VALUE>", "The longitude of the location to get current conditions for", parseFloat)
+    .option("--localAqi", "Include local AQI in response")
+    .option("--healthRecommendations", "Include health recommendations in response")
+    .option("--pollutantAdditionalInfo", "Include additional pollutant info")
+    .option("--dominantPollutantConcentration", "Include dominant pollutant concentration data")
+    .option("--pollutantConcentration", "Include pollutant concentration data");
 
 program.parse();
 
 const opts = program.opts();
 
 const apiKey = new GoogleMapsApiKey(opts.key);
-const getForecast = new GetPollenForecast({
+
+const extraComputations: ExtraComputation[] = [];
+if (opts.localAqi) {
+    extraComputations.push(ExtraComputation.localAqi);
+}
+if (opts.healthRecommendations) {
+    extraComputations.push(ExtraComputation.healthRecommendations);
+}
+if (opts.pollutantAdditionalInfo) {
+    extraComputations.push(ExtraComputation.pollutantAdditionalInfo);
+}
+if (opts.dominantPollutantConcentration) {
+    extraComputations.push(ExtraComputation.dominantPollutantConcentration);
+}
+if (opts.pollutantConcentration) {
+    extraComputations.push(ExtraComputation.pollutantConcentration);
+}
+const getCurrentAirConditions = new GetCurrentAirConditions({
     location: {
         latitude: opts.latitude,
         longitude: opts.longitude,
     },
-    days: opts.days,
+    extraComputations,
     languageCode: "en-US",
-    plantsDescription: opts.expandPlants ?? false,
 });
 
 function verboseLogger(event: SereneLogEvent): void {
@@ -62,9 +81,9 @@ function verboseLogger(event: SereneLogEvent): void {
             break;
     }
 }
-fulfill({ request: getForecast, authority: apiKey, logger: verboseLogger })
-    .then(forecast => {
-        console.info(JSON.stringify(forecast, undefined, 2));
+fulfill({ request: getCurrentAirConditions, authority: apiKey, logger: verboseLogger })
+    .then(currentAirConditions => {
+        console.info(JSON.stringify(currentAirConditions, undefined, 2));
     }, error => {
         console.error(`Failed: ${error}`);
     });

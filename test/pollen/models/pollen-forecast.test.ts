@@ -19,6 +19,7 @@
 
 import { describe, expect, it } from "@jest/globals";
 import { parsePollenForecast } from "../../../lib/pollen";
+import { Color } from "../../../lib";
 
 describe("pollen#models/pollen-forecast module", () => {
     describe("#parsePollenForecast", () => {
@@ -99,5 +100,12 @@ describe("pollen#models/pollen-forecast module", () => {
             expect(plantDescription.pictureCloseup instanceof URL).toStrictEqual(true);
             expect(plantDescription.pictureCloseup).toStrictEqual(new URL("https://storage.googleapis.com/pollen-pictures/birch_closeup.jpg"));
         });
+
+        it("should parse color objects", () => {
+          const subject = parsePollenForecast(rawSubject);
+          const info = subject.dailyInfo[0];
+          const indexInfo = info.plantInfo[0].indexInfo!;
+          expect(indexInfo.color instanceof Color).toStrictEqual(true);
+      });
     });
 });

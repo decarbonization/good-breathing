@@ -17,5 +17,43 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-export * from "./color";
-export * from "./api-key";
+/**
+ * Health recommendations for different population groups in a free text format.
+ * The recommendations are derived from their associated air quality conditions.
+ */
+export interface HealthRecommendations {
+    /**
+     * No specific sensitivities.
+     */
+    readonly generalPopulation: string;
+
+    /**
+     * Retirees and people older than the general population.
+     */
+    readonly elderly: string;
+
+    /**
+     * Respiratory related problems and asthma suffers.
+     */
+    readonly lungDiseasePopulation: string;
+
+    /**
+     * Heart and circulatory system diseases.
+     */
+    readonly heartDiseasePopulation: string;
+
+    /**
+     * Sports and other strenuous outdoor activities.
+     */
+    readonly athletes: string;
+
+    /**
+     * Women at all stages of pregnancy.
+     */
+    readonly pregnantWomen: string;
+
+    /**
+     * Younger populations including children, toddlers, and babies.
+     */
+    readonly children: string;
+}
