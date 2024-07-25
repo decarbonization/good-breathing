@@ -10,6 +10,10 @@
       "types": "./dist/lib/index.d.ts",
       "default": "./dist/lib/index.js"
     },
+    "./aqi": {
+      "types": "./dist/lib/aqi/index.d.ts",
+      "default": "./dist/lib/aqi/index.js"
+    },
     "./pollen": {
       "types": "./dist/lib/pollen/index.d.ts",
       "default": "./dist/lib/pollen/index.js"
