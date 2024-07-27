@@ -68,6 +68,17 @@ export const enum ExtraComputation {
 }
 
 /**
+ * All additional features that can be optionally enabled.
+ */
+export const allExtraComputations: readonly ExtraComputation[] = Object.freeze([
+    ExtraComputation.localAqi,
+    ExtraComputation.healthRecommendations,
+    ExtraComputation.pollutantAdditionalInfo,
+    ExtraComputation.dominantPollutantConcentration,
+    ExtraComputation.pollutantConcentration,
+]);
+
+/**
  * Determines the color palette used for the data provided by the "Universal Air Quality Index" (UAQI). 
  * This color palette is relevant just for UAQI, other AQIs have a predetermined color palette that can't be controlled.
  */
