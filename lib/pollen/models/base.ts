@@ -17,7 +17,7 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import { Color } from "../../color";
+import { Color } from "serene-front/data";
 
 /**
  * Pollen Type Code.

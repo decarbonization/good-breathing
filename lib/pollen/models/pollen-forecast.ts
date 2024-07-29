@@ -17,7 +17,7 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import { Color } from "../../color";
+import { Color } from "serene-front/data";
 import { PollenDayInfo } from "./pollen-day-info";
 
 /**
@@ -56,8 +56,8 @@ export function parsePollenForecast(json: string): PollenForecast {
             const month = value["month"] as number | undefined ?? 1;
             const day = value["day"] as number | undefined ?? 1;
             return new Date(Date.UTC(year, month - 1, day));
-        } else if (typeof value === "object" && value !== null && key === "color") {
-            return Color.hydrate(value);
+        } else if (key === "color") {
+            return Color.revive(value);
         } else {
             return value;
         }

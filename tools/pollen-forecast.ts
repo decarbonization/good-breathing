@@ -21,6 +21,7 @@ import { program } from "commander";
 import { GoogleMapsApiKey } from "../lib";
 import { GetPollenForecast } from "../lib/pollen";
 import { fulfill, SereneLogEvent } from "serene-front";
+import { LocationCoordinates } from "serene-front/data";
 
 program
     .name("pollen-forecast")
@@ -37,10 +38,7 @@ const opts = program.opts();
 
 const apiKey = new GoogleMapsApiKey(opts.key);
 const getForecast = new GetPollenForecast({
-    location: {
-        latitude: opts.latitude,
-        longitude: opts.longitude,
-    },
+    location: new LocationCoordinates(opts.latitude, opts.longitude),
     days: opts.days,
     languageCode: "en-US",
     plantsDescription: opts.expandPlants ?? false,

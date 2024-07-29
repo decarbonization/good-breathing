@@ -19,7 +19,7 @@
 
 import { describe, expect, it } from "@jest/globals";
 import { parsePollenForecast } from "../../../lib/pollen";
-import { Color } from "../../../lib";
+import { Color } from "serene-front/data";
 
 describe("pollen#models/pollen-forecast module", () => {
     describe("#parsePollenForecast", () => {

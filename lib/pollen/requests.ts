@@ -18,9 +18,9 @@
  */
 
 import { SereneRequest, SereneRequestParseOptions, SereneRequestPrepareOptions } from "serene-front";
-import { LocationCoordinates } from "serene-front/models";
 import { GoogleMapsApiKey } from "../api-key";
 import { parsePollenForecast, PollenForecast } from "./models";
+import { LocationCoordinates } from "serene-front/data";
 
 /**
  * The pollen API services url.

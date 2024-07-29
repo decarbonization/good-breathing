@@ -21,6 +21,7 @@ import { program } from "commander";
 import { GoogleMapsApiKey } from "../lib";
 import { fulfill, SereneLogEvent } from "serene-front";
 import { GetCurrentAirConditions, ExtraComputation } from "../lib/aqi";
+import { LocationCoordinates } from "serene-front/data";
 
 program
     .name("pollen-forecast")
@@ -57,10 +58,7 @@ if (opts.pollutantConcentration) {
     extraComputations.push(ExtraComputation.pollutantConcentration);
 }
 const getCurrentAirConditions = new GetCurrentAirConditions({
-    location: {
-        latitude: opts.latitude,
-        longitude: opts.longitude,
-    },
+    location: new LocationCoordinates(opts.latitude, opts.longitude),
     extraComputations,
     languageCode: "en-US",
 });

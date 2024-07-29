@@ -19,7 +19,7 @@
 
 import { describe, expect, it } from "@jest/globals";
 import { parseCurrentAirConditions } from "../../../lib/aqi";
-import { Color } from "../../../lib";
+import { Color } from "serene-front/data";
 
 describe("aqi#models/current-conditions module", () => {
     describe("#parseCurrentAirConditions", () => {

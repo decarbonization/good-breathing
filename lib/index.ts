@@ -17,5 +17,4 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-export * from "./color";
 export * from "./api-key";

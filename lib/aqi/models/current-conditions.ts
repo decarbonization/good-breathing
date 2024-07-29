@@ -17,7 +17,7 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import { Color } from "../../color";
+import { Color } from "serene-front/data";
 import { AirQualityIndex } from "./air-quality-index";
 import { HealthRecommendations } from "./health-recommendations";
 import { Pollutant } from "./pollutant";
@@ -72,8 +72,8 @@ export function parseCurrentAirConditions(json: string): CurrentAirConditions {
     const object = JSON.parse(json, (key, value) => {
         if (typeof value === "string" && key === "dateTime") {
             return new Date(value);
-        } else if (typeof value === "object" && value !== null && key === "color") {
-            return Color.hydrate(value);
+        } else if (key === "color") {
+            return Color.revive(value);
         } else {
             return value;
         }
