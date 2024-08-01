@@ -18,10 +18,10 @@
  */
 
 import { program } from "commander";
-import { GoogleMapsApiKey } from "../lib";
-import { fulfill, SereneLogEvent } from "serene-front";
-import { GetCurrentAirConditions, ExtraComputation } from "../lib/aqi";
+import { fulfill, noLogger, verboseConsoleLogger } from "serene-front";
 import { LocationCoordinates } from "serene-front/data";
+import { GoogleMapsApiKey } from "../lib";
+import { ExtraComputation, GetCurrentAirConditions } from "../lib/aqi";
 
 program
     .name("pollen-forecast")
@@ -33,7 +33,8 @@ program
     .option("--healthRecommendations", "Include health recommendations in response")
     .option("--pollutantAdditionalInfo", "Include additional pollutant info")
     .option("--dominantPollutantConcentration", "Include dominant pollutant concentration data")
-    .option("--pollutantConcentration", "Include pollutant concentration data");
+    .option("--pollutantConcentration", "Include pollutant concentration data")
+    .option("-v --verbose", "Log additional information");
 
 program.parse();
 
@@ -62,24 +63,9 @@ const getCurrentAirConditions = new GetCurrentAirConditions({
     extraComputations,
     languageCode: "en-US",
 });
+const logger = opts.verbose ? verboseConsoleLogger : noLogger;
 
-function verboseLogger(event: SereneLogEvent): void {
-    switch (event.event) {
-        case "willAuthenticate":
-            console.error(`+ willAuthenticate <${event.fetchRequest.url}> using ${event.authority}`);
-            break;
-        case "willRefreshAuthority":
-            console.error(`+ willRefreshAuthority ${event.authority}`);
-            break;
-        case "willFetch":
-            console.error(`+ willFetch <${event.fetchRequest.url}>`);
-            break;
-        case "willParse":
-            console.error(`+ willParse ${event.fetchResponse.status} ${event.fetchResponse.statusText}`);
-            break;
-    }
-}
-fulfill({ request: getCurrentAirConditions, authority: apiKey, logger: verboseLogger })
+fulfill({ request: getCurrentAirConditions, authority: apiKey, logger })
     .then(currentAirConditions => {
         console.info(JSON.stringify(currentAirConditions, undefined, 2));
     }, error => {

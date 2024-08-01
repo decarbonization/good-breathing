@@ -18,10 +18,10 @@
  */
 
 import { program } from "commander";
+import { fulfill, noLogger, verboseConsoleLogger } from "serene-front";
+import { LocationCoordinates } from "serene-front/data";
 import { GoogleMapsApiKey } from "../lib";
 import { GetPollenForecast } from "../lib/pollen";
-import { fulfill, SereneLogEvent } from "serene-front";
-import { LocationCoordinates } from "serene-front/data";
 
 program
     .name("pollen-forecast")
@@ -30,7 +30,8 @@ program
     .requiredOption("--latitude <VALUE>", "The latitude of the forecast location", parseFloat)
     .requiredOption("--longitude <VALUE>", "The longitude of the forecast location", parseFloat)
     .option("--days [VALUE]", "How many days to include in the forecast", parseInt, 5)
-    .option("--expandPlants", "Include plants description in the forecast");
+    .option("--expandPlants", "Include plants description in the forecast")
+    .option("-v --verbose", "Log additional information");
 
 program.parse();
 
@@ -43,24 +44,9 @@ const getForecast = new GetPollenForecast({
     languageCode: "en-US",
     plantsDescription: opts.expandPlants ?? false,
 });
+const logger = opts.verbose ? verboseConsoleLogger : noLogger;
 
-function verboseLogger(event: SereneLogEvent): void {
-    switch (event.event) {
-        case "willAuthenticate":
-            console.error(`+ willAuthenticate <${event.fetchRequest.url}> using ${event.authority}`);
-            break;
-        case "willRefreshAuthority":
-            console.error(`+ willRefreshAuthority ${event.authority}`);
-            break;
-        case "willFetch":
-            console.error(`+ willFetch <${event.fetchRequest.url}>`);
-            break;
-        case "willParse":
-            console.error(`+ willParse ${event.fetchResponse.status} ${event.fetchResponse.statusText}`);
-            break;
-    }
-}
-fulfill({ request: getForecast, authority: apiKey, logger: verboseLogger })
+fulfill({ request: getForecast, authority: apiKey, logger })
     .then(forecast => {
         console.info(JSON.stringify(forecast, undefined, 2));
     }, error => {
