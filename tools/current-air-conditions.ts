@@ -40,34 +40,35 @@ program.parse();
 
 const opts = program.opts();
 
-const apiKey = new GoogleMapsApiKey(opts.key);
+(async () => {
+    const apiKey = new GoogleMapsApiKey(opts.key);
 
-const extraComputations: ExtraComputation[] = [];
-if (opts.localAqi) {
-    extraComputations.push(ExtraComputation.localAqi);
-}
-if (opts.healthRecommendations) {
-    extraComputations.push(ExtraComputation.healthRecommendations);
-}
-if (opts.pollutantAdditionalInfo) {
-    extraComputations.push(ExtraComputation.pollutantAdditionalInfo);
-}
-if (opts.dominantPollutantConcentration) {
-    extraComputations.push(ExtraComputation.dominantPollutantConcentration);
-}
-if (opts.pollutantConcentration) {
-    extraComputations.push(ExtraComputation.pollutantConcentration);
-}
-const getCurrentAirConditions = new GetCurrentAirConditions({
-    location: new LocationCoordinates(opts.latitude, opts.longitude),
-    extraComputations,
-    languageCode: "en-US",
-});
-const logger = opts.verbose ? verboseConsoleLogger : noLogger;
-
-fulfill({ request: getCurrentAirConditions, authority: apiKey, logger })
-    .then(currentAirConditions => {
-        console.info(JSON.stringify(currentAirConditions, undefined, 2));
-    }, error => {
-        console.error(`Failed: ${error}`);
+    const extraComputations: ExtraComputation[] = [];
+    if (opts.localAqi) {
+        extraComputations.push(ExtraComputation.localAqi);
+    }
+    if (opts.healthRecommendations) {
+        extraComputations.push(ExtraComputation.healthRecommendations);
+    }
+    if (opts.pollutantAdditionalInfo) {
+        extraComputations.push(ExtraComputation.pollutantAdditionalInfo);
+    }
+    if (opts.dominantPollutantConcentration) {
+        extraComputations.push(ExtraComputation.dominantPollutantConcentration);
+    }
+    if (opts.pollutantConcentration) {
+        extraComputations.push(ExtraComputation.pollutantConcentration);
+    }
+    const getCurrentAirConditions = new GetCurrentAirConditions({
+        location: new LocationCoordinates(opts.latitude, opts.longitude),
+        extraComputations,
+        languageCode: "en-US",
     });
+    const logger = opts.verbose ? verboseConsoleLogger : noLogger;
+    try {
+        const results = await fulfill({ request: getCurrentAirConditions, authority: apiKey, logger });
+        console.info(JSON.stringify(results, undefined, 2));
+    } catch (error) {
+        console.error(`Failed: ${error}`);
+    }
+})();

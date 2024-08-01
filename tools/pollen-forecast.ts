@@ -37,18 +37,19 @@ program.parse();
 
 const opts = program.opts();
 
-const apiKey = new GoogleMapsApiKey(opts.key);
-const getForecast = new GetPollenForecast({
-    location: new LocationCoordinates(opts.latitude, opts.longitude),
-    days: opts.days,
-    languageCode: "en-US",
-    plantsDescription: opts.expandPlants ?? false,
-});
-const logger = opts.verbose ? verboseConsoleLogger : noLogger;
-
-fulfill({ request: getForecast, authority: apiKey, logger })
-    .then(forecast => {
-        console.info(JSON.stringify(forecast, undefined, 2));
-    }, error => {
-        console.error(`Failed: ${error}`);
+(async () => {
+    const apiKey = new GoogleMapsApiKey(opts.key);
+    const getForecast = new GetPollenForecast({
+        location: new LocationCoordinates(opts.latitude, opts.longitude),
+        days: opts.days,
+        languageCode: "en-US",
+        plantsDescription: opts.expandPlants ?? false,
     });
+    const logger = opts.verbose ? verboseConsoleLogger : noLogger;
+    try {
+        const results = await fulfill({ request: getForecast, authority: apiKey, logger });
+        console.info(JSON.stringify(results, undefined, 2));
+    } catch (error) {
+        console.error(`Failed: ${error}`);
+    }
+})();
