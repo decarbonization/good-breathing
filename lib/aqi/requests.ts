@@ -18,9 +18,10 @@
  */
 
 import { SereneRequest, SereneRequestParseOptions, SereneRequestPrepareOptions } from "serene-front";
-import { GoogleMapsApiKey } from "../api-key";
-import { ColorPalette, CurrentAirConditions, CustomLocalAqi, ExtraComputation, parseCurrentAirConditions } from "./models";
 import { LocationCoordinates } from "serene-front/data";
+import { GoogleMapsApiKey } from "../api-key";
+import { GoogleMapsError, parseErrorResponse } from "../error";
+import { ColorPalette, CurrentAirConditions, CustomLocalAqi, ExtraComputation, parseCurrentAirConditions } from "./models";
 
 /**
  * The air quality API services url.
@@ -40,7 +41,7 @@ export interface CurrentAirConditionsOptions {
      * Additional features that can be optionally enabled. Specifying extra computations 
      * will result in the relevant elements and fields to be returned in the response.
      */
-    readonly extraComputations?: ExtraComputation[];
+    readonly extraComputations?: readonly ExtraComputation[];
 
     /**
      * Determines the color palette used for data provided by the 'Universal Air Quality Index' (UAQI).
@@ -56,7 +57,7 @@ export interface CurrentAirConditionsOptions {
      * to specify a non-default AQI for a given country, for example, to get the US EPA index for Canada 
      * rather than the default index for Canada.
      */
-    readonly customLocalAqis?: CustomLocalAqi[];
+    readonly customLocalAqis?: readonly CustomLocalAqi[];
 
     /**
      * If set to true, the Universal AQI will be included in the 'indexes' field of the response.
@@ -93,6 +94,14 @@ export class GetCurrentAirConditions implements SereneRequest<GoogleMapsApiKey, 
 
     async parse({ fetchResponse }: SereneRequestParseOptions<GoogleMapsApiKey>): Promise<CurrentAirConditions> {
         const json = await fetchResponse.text();
+        if (!fetchResponse.ok) {
+            const { error } = parseErrorResponse(json);
+            throw new GoogleMapsError(error.code, error.status, error.message);
+        }
         return parseCurrentAirConditions(json);
+    }
+
+    toString(): string {
+        return `GetCurrentAirConditions(${JSON.stringify(this.options)})`;
     }
 }

@@ -18,9 +18,10 @@
  */
 
 import { SereneRequest, SereneRequestParseOptions, SereneRequestPrepareOptions } from "serene-front";
-import { GoogleMapsApiKey } from "../api-key";
-import { parsePollenForecast, PollenForecast } from "./models";
 import { LocationCoordinates } from "serene-front/data";
+import { GoogleMapsApiKey } from "../api-key";
+import { GoogleMapsError, parseErrorResponse } from "../error";
+import { parsePollenForecast, PollenForecast } from "./models";
 
 /**
  * The pollen API services url.
@@ -94,6 +95,14 @@ export class GetPollenForecast implements SereneRequest<GoogleMapsApiKey, Pollen
 
     async parse({ fetchResponse }: SereneRequestParseOptions<GoogleMapsApiKey>): Promise<PollenForecast> {
         const json = await fetchResponse.text();
+        if (!fetchResponse.ok) {
+            const { error } = parseErrorResponse(json);
+            throw new GoogleMapsError(error.code, error.status, error.message);
+        }
         return parsePollenForecast(json);
+    }
+
+    toString(): string {
+        return `GetCurrentAirConditions(${JSON.stringify(this.options)})`;
     }
 }
