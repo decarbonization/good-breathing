@@ -20,6 +20,15 @@
 import { Color } from "serene-front/data";
 
 /**
+ * Codes for different `AirQualityIndex`s, non-exhaustive.
+ */
+export type AirQualityIndexCode =
+    | "uaqi"
+    | "usa_epa"
+    | "fra_atmo"
+    | string;
+
+/**
  * The basic object for representing different air quality metrics.
  */
 export interface AirQualityIndex {
@@ -29,7 +38,7 @@ export interface AirQualityIndex {
      * This field represents the index for programming purposes by using snake case instead of spaces.
      * Examples: "uaqi", "fra_atmo".
      */
-    readonly code: string;
+    readonly code: AirQualityIndexCode;
 
     /**
      * A human readable representation of the index name. Example: "AQI (US)"

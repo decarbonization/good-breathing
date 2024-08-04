@@ -21,12 +21,12 @@ import { program } from "commander";
 import { fulfill, noLogger, verboseConsoleLogger } from "serene-front";
 import { LocationCoordinates } from "serene-front/data";
 import { GoogleMapsApiKey } from "../lib";
-import { ExtraComputation, GetCurrentAirConditions } from "../lib/aqi";
+import { allExtraComputations, ExtraComputation, GetCurrentAirConditions } from "../lib/aqi";
 
 program
     .name("pollen-forecast")
     .description("CLI to verify current air conditions APIs")
-    .requiredOption("--key <VALUE>", "The Google Maps platform API key to use")
+    .requiredOption("-k --key <VALUE>", "The Google Maps platform API key to use")
     .requiredOption("--latitude <VALUE>", "The latitude of the location to get current conditions for", parseFloat)
     .requiredOption("--longitude <VALUE>", "The longitude of the location to get current conditions for", parseFloat)
     .option("--localAqi", "Include local AQI in response")
@@ -34,6 +34,7 @@ program
     .option("--pollutantAdditionalInfo", "Include additional pollutant info")
     .option("--dominantPollutantConcentration", "Include dominant pollutant concentration data")
     .option("--pollutantConcentration", "Include pollutant concentration data")
+    .option("-a --all", "Include all additional information")
     .option("-v --verbose", "Log additional information");
 
 program.parse();
@@ -44,20 +45,24 @@ const opts = program.opts();
     const apiKey = new GoogleMapsApiKey(opts.key);
 
     const extraComputations: ExtraComputation[] = [];
-    if (opts.localAqi) {
-        extraComputations.push(ExtraComputation.localAqi);
-    }
-    if (opts.healthRecommendations) {
-        extraComputations.push(ExtraComputation.healthRecommendations);
-    }
-    if (opts.pollutantAdditionalInfo) {
-        extraComputations.push(ExtraComputation.pollutantAdditionalInfo);
-    }
-    if (opts.dominantPollutantConcentration) {
-        extraComputations.push(ExtraComputation.dominantPollutantConcentration);
-    }
-    if (opts.pollutantConcentration) {
-        extraComputations.push(ExtraComputation.pollutantConcentration);
+    if (opts.all) {
+        extraComputations.push(...allExtraComputations);
+    } else {
+        if (opts.localAqi) {
+            extraComputations.push(ExtraComputation.localAqi);
+        }
+        if (opts.healthRecommendations) {
+            extraComputations.push(ExtraComputation.healthRecommendations);
+        }
+        if (opts.pollutantAdditionalInfo) {
+            extraComputations.push(ExtraComputation.pollutantAdditionalInfo);
+        }
+        if (opts.dominantPollutantConcentration) {
+            extraComputations.push(ExtraComputation.dominantPollutantConcentration);
+        }
+        if (opts.pollutantConcentration) {
+            extraComputations.push(ExtraComputation.pollutantConcentration);
+        }
     }
     const getCurrentAirConditions = new GetCurrentAirConditions({
         location: new LocationCoordinates(opts.latitude, opts.longitude),

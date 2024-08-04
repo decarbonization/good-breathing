@@ -26,11 +26,11 @@ import { GetPollenForecast } from "../lib/pollen";
 program
     .name("pollen-forecast")
     .description("CLI to verify pollen forecast APIs")
-    .requiredOption("--key <VALUE>", "The Google Maps platform API key to use")
+    .requiredOption("-k --key <VALUE>", "The Google Maps platform API key to use")
     .requiredOption("--latitude <VALUE>", "The latitude of the forecast location", parseFloat)
     .requiredOption("--longitude <VALUE>", "The longitude of the forecast location", parseFloat)
-    .option("--days [VALUE]", "How many days to include in the forecast", parseInt, 5)
-    .option("--expandPlants", "Include plants description in the forecast")
+    .option("-d --days [VALUE]", "How many days to include in the forecast", parseInt, 5)
+    .option("-e --expandPlants", "Include plants description in the forecast")
     .option("-v --verbose", "Log additional information");
 
 program.parse();

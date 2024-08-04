@@ -22,4 +22,3 @@ export * from "./base";
 export * from "./current-conditions";
 export * from "./health-recommendations";
 export * from "./pollutant";
-
