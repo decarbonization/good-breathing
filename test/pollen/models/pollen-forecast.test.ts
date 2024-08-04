@@ -87,8 +87,18 @@ describe("pollen#models#pollen-forecast module", () => {
 
         it("should parse date objects", () => {
             const subject = parsePollenForecast(rawSubject);
-            const info = subject.dailyInfo[0];
-            expect(info.date).toStrictEqual(new Date("2023-07-11T00:00:00.000Z"));
+            expect(subject.dailyInfo[0].date).toStrictEqual(new Date("2023-07-11T00:00:00.000Z"));
+
+            const alternateSubject = parsePollenForecast(`
+                {
+                    "dailyInfo": [
+                        {
+                            "date": "2023-07-11T00:00:00.000Z"
+                        }
+                    ]
+                }
+            `);
+            expect(alternateSubject.dailyInfo[0].date).toStrictEqual(new Date("2023-07-11T00:00:00.000Z"));
         });
 
         it("should parse url objects", () => {
@@ -102,10 +112,10 @@ describe("pollen#models#pollen-forecast module", () => {
         });
 
         it("should parse color objects", () => {
-          const subject = parsePollenForecast(rawSubject);
-          const info = subject.dailyInfo[0];
-          const indexInfo = info.plantInfo[0].indexInfo!;
-          expect(indexInfo.color instanceof Color).toStrictEqual(true);
-      });
+            const subject = parsePollenForecast(rawSubject);
+            const info = subject.dailyInfo[0];
+            const indexInfo = info.plantInfo[0].indexInfo!;
+            expect(indexInfo.color instanceof Color).toStrictEqual(true);
+        });
     });
 });

@@ -56,6 +56,8 @@ export function parsePollenForecast(json: string): PollenForecast {
             const month = value["month"] as number | undefined ?? 1;
             const day = value["day"] as number | undefined ?? 1;
             return new Date(Date.UTC(year, month - 1, day));
+        } else if (typeof value === "string" && key === "date") {
+            return new Date(value);
         } else if (key === "color") {
             return Color.revive(value);
         } else {
